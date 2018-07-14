@@ -4,10 +4,11 @@ https://algospot.com/judge/problem/read/RUNNINGMEDIAN
 @ Jae Kyun Kim
 '''
 class MaxHeap():
-    def __init__(self):
-        self.size = 0
+    def __init__(self, first_data):
+        self.size = 1
         self.arr = list()
         self.arr.append('') ## To make index start from 1
+        self.arr.append(first_data)
     
     def heapify(self, i):
         largest = i
@@ -26,7 +27,6 @@ class MaxHeap():
 
     def push(self, data):       
         self.size += 1
-
         ## 힙의 개수가 2 이상일 때, 
         if self.size > 1:
             self.arr.append(data)
@@ -49,6 +49,7 @@ class MaxHeap():
     def pop(self):
         ## Swap with last node
         self.arr[1], self.arr[self.size] = self.arr[self.size], self.arr[1]
+        del self.arr[self.size]
         self.size -= 1
         ## heapify
         self.heapify(1)
@@ -58,9 +59,7 @@ class MaxHeap():
             return self.arr[1]
     
     def print(self):
-        for i in range(1, self.size+1):
-            print(self.arr[i], )
-        print('\n')
+        print(self.arr[1:(self.size+1)])
 
 class MinHeap():
     def __init__(self):
@@ -85,7 +84,7 @@ class MinHeap():
 
     def push(self, data):       
         self.size += 1
-
+      
         ## 힙의 개수가 2 이상일 때, 
         if self.size > 1:
             self.arr.append(data)
@@ -108,6 +107,7 @@ class MinHeap():
     def pop(self):
         ## Swap with last node
         self.arr[1], self.arr[self.size] = self.arr[self.size], self.arr[1]
+        del self.arr[self.size]
         self.size -= 1
         ## heapify
         self.heapify(1)
@@ -117,9 +117,7 @@ class MinHeap():
             return self.arr[1]
     
     def print(self):
-        for i in range(1, self.size+1):
-            print(self.arr[i], )
-        print('\n')
+        print(self.arr[1:(self.size+1)])
 
 if __name__ == '__main__':
     # test_case = int(input())
@@ -129,6 +127,7 @@ if __name__ == '__main__':
     #     argument = command.split(' ')
     #     n, a, b = int(argument[0]), int(argument[1]), int(argument[2])
 
+    #     result = 0
     #     previous_value = 1983
     #     max_heap = MaxHeap(previous_value)
     #     min_heap = MinHeap()
@@ -138,7 +137,7 @@ if __name__ == '__main__':
     #     2. max heap의 root 값은 min heap의 root 값보다 작거나 같다.
     #     '''        
     #     for i in range(0, n):
-    #         next_value = (previous_value * a + b) & 20090711
+    #         next_value = (previous_value * a + b) % 20090711
 
     #         ## 힙의 개수가 같으면 max heap에 넣는다
     #         if max_heap.size == min_heap.size:
@@ -147,28 +146,47 @@ if __name__ == '__main__':
     #         else:
     #             min_heap.push(next_value)
 
+    #         max_heap.print()
+    #         min_heap.print()
+    #         input()
     #         ## 힙이 둘다 비어있지 않고, max heap의 최대 값이 min heap의 최소 값보다 크다면 root 값끼리 바꾼다
     #         if min_heap.size != 0 and max_heap.size != 0 and min_heap.top() < max_heap.top():
     #             a = max_heap.top()
     #             b = min_heap.top()
     #             max_heap.pop()
     #             min_heap.pop()
+    #             print('pop이 된 후')
+    #             max_heap.print()
+    #             min_heap.print()
+    #             input()
+                
     #             max_heap.push(b)
     #             min_heap.push(a)
-            
-    #         result = (result + max_heap.top()) & 20090711
-        
+
+    #             print('바뀐 후')
+    #             max_heap.print()
+    #             min_heap.print()
+    #             input()
+
+    #         print('중앙값')
+    #         print(max_heap.top())
+    #         input()
+    #         result = (result + max_heap.top()) % 20090711
+    #         previous_value = next_value
+
     #     print(result)
-
-    heap = MaxHeap()
-    heap.push(3)    
-    heap.push(7)    
-    heap.push(6)    
-    heap.push(5)    
-    heap.push(9)    
+    heap = MaxHeap(3)
     heap.push(1)
-    heap.print()    
+    heap.push(4)
+    heap.push(13)
+    heap.push(5)
+    heap.print()
+    heap.pop()
+    heap.pop()
+    heap.print()
 
-        
+    heap.push(12)
+    heap.push(7)
+    heap.print()
 
 
