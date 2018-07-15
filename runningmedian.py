@@ -3,6 +3,8 @@
 https://algospot.com/judge/problem/read/RUNNINGMEDIAN
 @ Jae Kyun Kim
 '''
+import sys
+
 class MaxHeap():
     def __init__(self, first_data):
         self.size = 1
@@ -59,9 +61,6 @@ class MaxHeap():
     def top(self):
         if self.size != 0:
             return self.arr[1]
-    
-    def print(self):
-        print(self.arr[1:(self.size+1)])
 
 class MinHeap():
     def __init__(self):
@@ -117,20 +116,23 @@ class MinHeap():
     def top(self):
         if self.size != 0:
             return self.arr[1]
-    
-    def print(self):
-        print(self.arr[1:(self.size+1)])
+
+def generator(a, b):
+    A = 1983
+    yield A
+    while True:
+        A = (A * a + b) % 20090711
+        yield A
 
 if __name__ == '__main__':
-    test_case = int(input())
+    test_case = int(sys.stdin.readline())
 
-    for i in range(test_case):
-        command = input()
-        argument = command.split(' ')
-        n, a, b = int(argument[0]), int(argument[1]), int(argument[2])
+    for _ in range(test_case):
+        n, a, b = [int(i) for i in sys.stdin.readline().split()]
 
-        previous_value = 1983
-        max_heap = MaxHeap(previous_value)
+        value = generator(a, b)
+        
+        max_heap = MaxHeap(value.__next__())
         min_heap = MinHeap()
         result = 0
 
@@ -140,14 +142,13 @@ if __name__ == '__main__':
         '''        
         for i in range(0, n):
             result = (result + max_heap.top())
-            next_value = (previous_value * a + b) % 20090711
 
             ## 힙의 개수가 같으면 max heap에 넣는다
             if max_heap.size == min_heap.size:
-                max_heap.push(next_value)
+                max_heap.push(value.__next__())
             ## 힙의 개수가 다르면 min heap에 넣는다
             else:
-                min_heap.push(next_value)
+                min_heap.push(value.__next__())
 
             ## 힙이 둘다 비어있지 않고, max heap의 최대 값이 min heap의 최소 값보다 크다면 root 값끼리 바꾼다
             if min_heap.size != 0 and max_heap.size != 0 and min_heap.top() < max_heap.top():
@@ -158,6 +159,7 @@ if __name__ == '__main__':
                 max_heap.push(n)
                 min_heap.push(m)
                 
-            previous_value = next_value
 
         print(result % 20090711)
+
+     
